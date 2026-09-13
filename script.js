@@ -1,6 +1,20 @@
 const shell=document.getElementById('shell'),cover=document.getElementById('cover'),seal=document.getElementById('sealBtn'),invite=document.getElementById('invitation');
 const audio=document.getElementById('music'),musicBtn=document.getElementById('musicBtn');
 
+// Guard against mobile browsers auto-scrolling the page down while the
+// cover is still showing (e.g. when a late-loading image shifts layout).
+// As long as the invitation hasn't been opened yet, snap straight back
+// to the top of the envelope screen.
+function pinToCover(){
+  if(!shell.classList.contains('open')){
+    window.scrollTo(0,0);
+  }
+}
+window.addEventListener('load',pinToCover);
+window.addEventListener('scroll',pinToCover,{passive:true});
+document.addEventListener('DOMContentLoaded',pinToCover);
+pinToCover();
+
 seal.addEventListener('click',()=>{
   if(shell.classList.contains('open'))return;
   cover.classList.add('open');
